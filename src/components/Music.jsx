@@ -15,7 +15,7 @@ const StyledDiv = styled.div`
 `;
 
 const Music = () => {
-    const [music, setMusic] = useState('https://www.youtube.com/watch?v=HIMbqqJtDlo');
+    const [music, setMusic] = useState(null);
 
     const getMovement = useContext(MouseContext);
     const { x } = getMovement(30);
