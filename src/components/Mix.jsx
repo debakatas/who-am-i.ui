@@ -62,8 +62,13 @@ const StyledCopy = styled.span`
 `;
 
 const Mix = () => {
-    const [artist, setArtist] = useState(null);
-    const [music, setMusic] = useState(null);
+    const [artist, setArtist] = useState(
+        {
+            name: 'Maco',
+            url: 'https://i.ibb.co/dksqjYs/37702-413535068651-3391122-n.jpg'
+        }
+    );
+    const [music, setMusic] = useState('https://www.youtube.com/watch?v=HIMbqqJtDlo');
 
     const getMovement = useMovement();
     const { x, yNeg } = getMovement(100);

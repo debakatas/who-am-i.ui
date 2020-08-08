@@ -48,7 +48,10 @@ const StyledH1 = styled.h1`
 const Art = () => {
     const getMovement = useContext(MouseContext);
     const { y, yNeg } = getMovement(100);
-    const [artist, setArtist] = useState(null);
+    const [artist, setArtist] = useState({
+        name: 'Maco',
+        url: 'https://i.ibb.co/dksqjYs/37702-413535068651-3391122-n.jpg'
+    });
 
     const getArtist = async () => {
         setArtist(
