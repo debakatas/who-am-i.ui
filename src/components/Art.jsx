@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { MouseContext } from './MouseContext';
+import { doGet } from '../fetch';
 
 const StyledFigure = styled.figure`
     position: relative;
@@ -47,10 +48,19 @@ const StyledH1 = styled.h1`
 const Art = () => {
     const getMovement = useContext(MouseContext);
     const { y, yNeg } = getMovement(100);
-    const [artist, setArtist] = useState({
-        name: 'Monet',
-        url: "https://media.wsimag.com/attachments/8805d36b3d7fbe2eb26e7736f1925bbc5a45931b/store/fill/1090/613/b0eb32d11faf7605b4d67d56f1a719d68e697996980fc623a50a934e108f/Guernica-detalle-Picasso.jpg"
-    });
+    const [artist, setArtist] = useState(null);
+
+    const getArtist = async () => {
+        setArtist(
+            await doGet('art')
+        );
+    };
+
+    useEffect(() => {
+        getArtist();
+    }, []);
+
+    if (!artist) return null;
 
     return (
         <StyledFigure>

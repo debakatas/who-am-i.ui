@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 import Player from './Player';
 import { useMovement } from './MouseContext';
+import { doGet } from '../fetch';
 
 const StyledSection = styled.section`
     padding-inline: 20% 10%;
@@ -12,6 +13,7 @@ const StyledSection = styled.section`
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-top: -5%;
 `;
 
 const StyledTitle = styled.h1`
@@ -22,14 +24,17 @@ const StyledTitle = styled.h1`
 `;
 
 const StyledFigure = styled.figure`
-    max-width: 50vw;
-    max-height: 50vh;
     position: absolute;
     z-index: 1;
     width: 100%;
-    top: 30%;
-    left: 40%;
-    transform: translate(-50%, -50%);
+    top: 10%;
+    left: 20%;
+    max-width: 50vw;
+
+    > img {
+        object-fit: contain;
+        max-height: 50vh;
+    }
 `;
 
 const PlayerWrapper = styled.div`
@@ -57,14 +62,18 @@ const StyledCopy = styled.span`
 `;
 
 const Mix = () => {
-    const [artist, setArtist] = useState({
-        name: 'Monet',
-        url: "https://media.wsimag.com/attachments/8805d36b3d7fbe2eb26e7736f1925bbc5a45931b/store/fill/1090/613/b0eb32d11faf7605b4d67d56f1a719d68e697996980fc623a50a934e108f/Guernica-detalle-Picasso.jpg"
-    });
-    const [music, setMusic] = useState("https://www.youtube.com/watch?v=BvYuf4r-8xk");
+    const [artist, setArtist] = useState(null);
+    const [music, setMusic] = useState(null);
 
     const getMovement = useMovement();
-    const { xNeg, yNeg } = getMovement(30);
+    const { x, yNeg } = getMovement(100);
+
+    useEffect(() => {
+        doGet('music').then(({ url }) => setMusic(url));
+        doGet('art').then(a => setArtist(a));
+    }, []);
+
+    if (!artist || !music) return null;
 
     return (
         <StyledSection>
@@ -73,7 +82,11 @@ const Mix = () => {
             </StyledFigure>
 
             <PlayerWrapper>
-                <Player url={music}></Player>
+                <Player
+                    style={{
+                        boxShadow: `${x}px ${yNeg}px 0px #fbe5a4`
+                    }}
+                    url={music}></Player>
                 <StyledCopy img={artist.url}>{artist.name}</StyledCopy>
             </PlayerWrapper>
 

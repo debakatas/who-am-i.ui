@@ -1,5 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
+
+import { doGet } from '../fetch';
 import { MouseContext } from './MouseContext';
 import Player from './Player';
 
@@ -13,11 +15,25 @@ const StyledDiv = styled.div`
 `;
 
 const Music = () => {
-    const [music, setMusic] = useState("https://www.youtube.com/watch?v=BvYuf4r-8xk");
+    const [music, setMusic] = useState(null);
 
     const getMovement = useContext(MouseContext);
     const { x } = getMovement(30);
     const { yNeg, xNeg } = getMovement(100);
+
+    const getMusic = async () => {
+        const song = await doGet('music');
+        setMusic(
+            song.url
+        );
+    };
+
+    useEffect(() => {
+        getMusic();
+    }, []);
+
+    if (!music) return null;
+
 
     return (
         <StyledDiv>
