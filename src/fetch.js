@@ -1,4 +1,4 @@
-const endpoint = process.env.REACT_APP_BACKEND || `http://localhost:9000`;
+const endpoint = process.env.REACT_APP_BACKEND;
 
 export const doGet = async (path) => {
     const res = await fetch(`${endpoint}/${path}`);
